@@ -16,12 +16,16 @@ class CountryStats:
 
 # ---------------- FUNCTIONS ----------------
 def load_data(filepath):
-    """Load Kaggle dataset and return DataFrame."""
+    """Load Kaggle dataset and return DataFrame with suicide rate per 100k."""
     df = pd.read_csv(filepath)
-    # Keep only needed columns
+
+    # If the dataset does not already contain the suicide rate column, calculate it
+    if "suicides/100k pop" not in df.columns:
+        df["suicides/100k pop"] = (df["suicides_no"] / df["population"]) * 100000
+
+    # Now select only the needed columns
     df = df[["country", "year", "suicides/100k pop"]]
     return df
-
 
 def group_by_country(df):
     """Group dataset into dictionary by country."""
@@ -65,7 +69,7 @@ def compare_averages(country_dict, countries=["United States", "Japan", "India"]
 # ---------------- MAIN ----------------
 if __name__ == "__main__":
     # Step 1: Load dataset
-    df = load_data("master.csv")
+    df = load_data("who_suicide_statistics.csv")  # <-- updated filename
 
     # Step 2: Group by country
     country_dict = group_by_country(df)
