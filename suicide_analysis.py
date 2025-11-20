@@ -17,7 +17,7 @@ class CountryStats:
 # ---------------- FUNCTIONS ----------------
 def load_data(filepath):
     """Load Kaggle dataset and return DataFrame with suicide rate per 100k."""
-    df = pd.read_csv(filepath)
+    df = pd.read_csv("who_suicide_statistics.csv")
 
     # If the dataset does not already contain the suicide rate column, calculate it
     if "suicides/100k pop" not in df.columns:
